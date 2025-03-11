@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrôle des Cookies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 50px;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Récupération des Cookies</h1>
+    <input type="text" id="url" placeholder="Entrez l'URL cible">
+    <button onclick="requestCookies()">Obtenir les Cookies</button>
+    <div id="result"></div>
+
+    <script>
+        function requestCookies() {
+            const url = document.getElementById("url").value;
+            if (!url) {
+                alert("Veuillez entrer une URL valide.");
+                return;
+            }
+            
+            fetch("https://lx2px.netlify.app", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: url })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error("Erreur:", error);
+                document.getElementById("result").textContent = "Erreur lors de la récupération des cookies.";
+            });
+        }
+    </script>
+</body>
+</html>
